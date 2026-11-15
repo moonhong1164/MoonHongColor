@@ -8,4 +8,4 @@
 
 빌드 없는 정적 사이트입니다. `index.html`을 열거나 GitHub Pages로 배포합니다.
 
-https://moonhong1164.github.io/MoonHongCOLOR/
+https://moonhong1164.github.io/MoonHongColor/

@@ -92,6 +92,7 @@
     picked = [];
     table.hidden = false;
     reading.hidden = true;
+    if (journal) journal.hide();
     $('#spreadTitle').textContent = `${spread.name} · ${topic.name}`;
     const asked = $('#asked');
     asked.hidden = !question;
@@ -286,6 +287,7 @@
     $$('#details .mini').forEach(b => b.addEventListener('click', () => openColor(COLOR_BY_ID[b.dataset.id])));
 
     reading.hidden = false;
+    if (journal) journal.show();
     reading.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -455,4 +457,15 @@
   }));
   $('#qNext').addEventListener('click', nextQuestion);
   nextQuestion();
+
+  /* ---------- 리딩 일지에 저장 (허브의 journal-box.js를 못 불러오면 아무것도 하지 않는다) ---------- */
+  /* 색 카드는 방향이 없다(null). 배열 이름에 고른 주제를 붙여 둔다 */
+  var journal = window.MoonHongJournal && window.MoonHongJournal.box ? window.MoonHongJournal.box({
+    deck: '색채 타로', deckId: 'color', into: reading,
+    read: () => {
+      if (!spread || picked.length < spread.count || !picked.every(p => p.open)) return null;
+      return { spread: `${spread.name} · ${topic.name}`, question,
+        cards: picked.map((p, i) => ({ name: p.c.name, position: spread.positions[i], orientation: null })) };
+    }
+  }) : null;
 })();
